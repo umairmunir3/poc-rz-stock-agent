@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass
 from datetime import datetime
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Literal
 
 from src.indicators.technical import TechnicalIndicators
 from src.strategies.base import ExitSignal, Signal, Strategy, strategy_registry
@@ -130,7 +130,7 @@ class EMACrossoverStrategy(Strategy):
         bearish_crossover = prev_fast >= prev_slow and current_fast < current_slow
 
         # Determine direction
-        direction = None
+        direction: Literal["LONG", "SHORT"] | None = None
         if bullish_crossover:
             # Additional LONG conditions
             if current_close > current_trend and current_hist > 0:
@@ -165,7 +165,7 @@ class EMACrossoverStrategy(Strategy):
 
         # Calculate score
         score = self._calculate_score(
-            df=df,
+            _df=df,
             indicators=indicators,
             direction=direction,
             relative_volume=relative_volume,

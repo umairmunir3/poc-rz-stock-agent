@@ -5,7 +5,7 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass
 from datetime import datetime
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Literal
 
 from src.indicators.technical import TechnicalIndicators
 from src.strategies.base import ExitSignal, Signal, Strategy, strategy_registry
@@ -122,8 +122,8 @@ class MACDDivergenceStrategy(Strategy):
         bullish_div = self._detect_bullish_divergence(df, macd_line)
         bearish_div = self._detect_bearish_divergence(df, macd_line)
 
-        direction = None
-        reasons = []
+        direction: Literal["LONG", "SHORT"] | None = None
+        reasons: list[str] = []
 
         if bullish_div and prev_hist <= 0 < current_hist:
             # Bullish divergence with histogram confirmation

@@ -468,7 +468,9 @@ class BreakoutStrategy(Strategy):
 
             # Check stop loss hit
             if current_low <= current_stop:
-                exit_type = "TRAILING_STOP" if current_stop > initial_stop else "STOP_LOSS"
+                exit_type: Literal["TRAILING_STOP", "STOP_LOSS"] = (
+                    "TRAILING_STOP" if current_stop > initial_stop else "STOP_LOSS"
+                )
                 logger.info(f"Trade {trade_id}: {exit_type} at {current_stop:.2f}")
                 return ExitSignal(
                     trade_id=trade_id,
