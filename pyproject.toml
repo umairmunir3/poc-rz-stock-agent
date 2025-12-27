@@ -163,6 +163,9 @@ python_files = ["test_*.py"]
 python_functions = ["test_*"]
 asyncio_mode = "auto"
 addopts = "--cov=src --cov-report=html --cov-report=term-missing --cov-fail-under=80"
+markers = [
+    "integration: marks tests as integration tests (require real API keys)",
+]
 
 [tool.coverage.run]
 source = ["src"]
