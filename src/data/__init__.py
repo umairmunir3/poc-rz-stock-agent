@@ -13,6 +13,13 @@ from src.data.db_models import (
     TradeStatus,
 )
 from src.data.exceptions import AlphaVantageError, InvalidSymbolError, RateLimitError
+from src.data.pipeline import (
+    BackfillCheckpoint,
+    DataPipeline,
+    EventType,
+    PipelineStats,
+    handler,
+)
 from src.data.rate_limiter import TokenBucket
 from src.data.storage import StorageManager
 from src.data.universe import StockUniverse, SymbolMetadata, UniverseCache, UniverseFilters
@@ -20,9 +27,13 @@ from src.data.universe import StockUniverse, SymbolMetadata, UniverseCache, Univ
 __all__ = [
     "AlphaVantageClient",
     "AlphaVantageError",
+    "BackfillCheckpoint",
     "Base",
     "DailyBar",
+    "DataPipeline",
+    "EventType",
     "InvalidSymbolError",
+    "PipelineStats",
     "PortfolioSnapshot",
     "RateLimitError",
     "Signal",
@@ -37,4 +48,5 @@ __all__ = [
     "TradeStatus",
     "UniverseCache",
     "UniverseFilters",
+    "handler",
 ]
