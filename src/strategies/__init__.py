@@ -15,17 +15,33 @@ from src.strategies.breakout import (
     BreakoutConfig,
     BreakoutStrategy,
 )
+from src.strategies.ema_crossover import (
+    EMACrossoverConfig,
+    EMACrossoverStrategy,
+)
+from src.strategies.macd_divergence import (
+    MACDDivergenceConfig,
+    MACDDivergenceStrategy,
+)
 from src.strategies.rsi_mean_reversion import (
     RSIMeanReversionStrategy,
     RSIStrategyConfig,
+)
+from src.strategies.support_bounce import (
+    SupportBounceConfig,
+    SupportBounceStrategy,
 )
 
 __all__ = [
     "BreakoutConfig",
     "BreakoutStrategy",
     "Direction",
+    "EMACrossoverConfig",
+    "EMACrossoverStrategy",
     "ExitSignal",
     "ExitType",
+    "MACDDivergenceConfig",
+    "MACDDivergenceStrategy",
     "RSIMeanReversionStrategy",
     "RSIStrategyConfig",
     "Signal",
@@ -33,5 +49,7 @@ __all__ = [
     "StrategyParameters",
     "StrategyRegistry",
     "StrategyResult",
+    "SupportBounceConfig",
+    "SupportBounceStrategy",
     "strategy_registry",
 ]
