@@ -126,7 +126,10 @@ class CompanyOverview(BaseModel):
                 return float(v)
             except ValueError:
                 return None
-        return v
+        # v is already numeric at this point
+        if isinstance(v, (int, float)):
+            return v
+        return None
 
 
 class OptionContract(BaseModel):
@@ -156,7 +159,9 @@ class OptionContract(BaseModel):
         """Parse expiration date."""
         if isinstance(v, str):
             return datetime.strptime(v, "%Y-%m-%d")
-        return v
+        if isinstance(v, datetime):
+            return v
+        raise ValueError(f"Cannot parse expiration date from {type(v)}: {v}")
 
     @field_validator(
         "strike",

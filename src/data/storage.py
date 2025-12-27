@@ -277,7 +277,7 @@ class StorageManager:
             result = await session.execute(query)
             await session.commit()
 
-            return result.rowcount
+            return int(result.rowcount or 0)  # type: ignore[attr-defined]
 
     # =========================================================================
     # Signal Operations
@@ -362,7 +362,7 @@ class StorageManager:
                 update(Signal).where(Signal.id == signal_id).values(status=status.value)
             )
             await session.commit()
-            return result.rowcount > 0
+            return (result.rowcount or 0) > 0  # type: ignore[attr-defined]
 
     async def expire_old_signals(self) -> int:
         """Expire signals past their expiration time.
@@ -379,7 +379,7 @@ class StorageManager:
                 .values(status=SignalStatus.EXPIRED.value)
             )
             await session.commit()
-            return result.rowcount
+            return int(result.rowcount or 0)  # type: ignore[attr-defined]
 
     # =========================================================================
     # Trade Operations
@@ -646,9 +646,14 @@ class StorageManager:
         winners = [t for t in trades if t.pnl is not None and t.pnl > 0]
         losers = [t for t in trades if t.pnl is not None and t.pnl < 0]
 
-        total_pnl = sum(t.pnl for t in trades if t.pnl is not None)
-        gross_profit = sum(t.pnl for t in winners)
-        gross_loss = abs(sum(t.pnl for t in losers))
+        # Extract pnl values with type narrowing for mypy
+        winner_pnls = [t.pnl for t in winners if t.pnl is not None]
+        loser_pnls = [t.pnl for t in losers if t.pnl is not None]
+        all_pnls = [t.pnl for t in trades if t.pnl is not None]
+
+        total_pnl = sum(all_pnls)
+        gross_profit = sum(winner_pnls)
+        gross_loss = abs(sum(loser_pnls))
 
         r_multiples = [t.r_multiple for t in trades if t.r_multiple is not None]
 

@@ -171,11 +171,11 @@ class StockUniverse:
         symbols = await self._fetch_and_filter(filters)
 
         # Cache the result - convert SymbolMetadata to dicts for JSON serialization
-        metadata_dict = {}
+        metadata_dict: dict[str, dict[str, Any]] = {}
         for s in symbols:
             meta = self._metadata_cache.get(s)
-            if meta is not None:
-                metadata_dict[s] = meta.model_dump() if hasattr(meta, "model_dump") else meta
+            if meta is not None and hasattr(meta, "model_dump"):
+                metadata_dict[s] = meta.model_dump()
             else:
                 metadata_dict[s] = {}
 
@@ -211,11 +211,11 @@ class StockUniverse:
         symbols = await self._fetch_and_filter(filters)
 
         # Convert SymbolMetadata to dicts for JSON serialization
-        metadata_dict = {}
+        metadata_dict: dict[str, dict[str, Any]] = {}
         for s in symbols:
             meta = self._metadata_cache.get(s)
-            if meta is not None:
-                metadata_dict[s] = meta.model_dump() if hasattr(meta, "model_dump") else meta
+            if meta is not None and hasattr(meta, "model_dump"):
+                metadata_dict[s] = meta.model_dump()
             else:
                 metadata_dict[s] = {}
 
@@ -272,6 +272,9 @@ class StockUniverse:
         """
         if self._cache is None:
             await self.build_universe()
+
+        # After build_universe, cache is guaranteed to be set
+        assert self._cache is not None
 
         result = []
         for symbol in self._cache.symbols:
