@@ -1,6 +1,6 @@
 """Unit tests for database storage layer."""
 
-from datetime import date, datetime, timedelta
+from datetime import date, datetime
 
 import pandas as pd
 import pytest
@@ -16,7 +16,6 @@ from src.data.db_models import (
     TradeStatus,
 )
 from src.data.storage import StorageManager
-
 
 # Use SQLite for testing (in-memory)
 TEST_DATABASE_URL = "sqlite+aiosqlite:///:memory:"

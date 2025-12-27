@@ -8,7 +8,7 @@ import httpx
 import pandas as pd
 
 from src.data.exceptions import AlphaVantageError, InvalidSymbolError, RateLimitError
-from src.data.models import CompanyOverview, DailyOHLCVData, OHLCVData, OptionsChain
+from src.data.models import CompanyOverview, DailyOHLCVData, OHLCVData
 from src.data.rate_limiter import TokenBucket
 
 logger = logging.getLogger(__name__)

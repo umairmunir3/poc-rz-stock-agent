@@ -11,7 +11,6 @@ import pytest
 
 from src.data.alpha_vantage import AlphaVantageClient
 
-
 # Skip all tests in this module if no API key is available
 pytestmark = pytest.mark.skipif(
     not os.environ.get("ALPHA_VANTAGE_API_KEY"),

@@ -53,10 +53,10 @@ class Stock(Base):
 
     symbol: Mapped[str] = mapped_column(String(20), primary_key=True)
     name: Mapped[str] = mapped_column(String(255))
-    sector: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
-    industry: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
-    market_cap: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
-    avg_volume: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    sector: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    industry: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    market_cap: Mapped[float | None] = mapped_column(Float, nullable=True)
+    avg_volume: Mapped[int | None] = mapped_column(Integer, nullable=True)
     last_updated: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
@@ -127,8 +127,8 @@ class Signal(Base):
     status: Mapped[str] = mapped_column(
         String(20), default=SignalStatus.PENDING.value, insert_default=SignalStatus.PENDING.value
     )  # PENDING/FILLED/CANCELLED/EXPIRED
-    expires_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
-    notes: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)
+    expires_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    notes: Mapped[str | None] = mapped_column(String(500), nullable=True)
 
     # Relationships
     stock: Mapped["Stock"] = relationship("Stock", back_populates="signals")
@@ -161,7 +161,7 @@ class Trade(Base):
     __table_args__ = (Index("ix_trades_symbol_status", "symbol", "status"),)
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    signal_id: Mapped[Optional[int]] = mapped_column(
+    signal_id: Mapped[int | None] = mapped_column(
         Integer, ForeignKey("signals.id", ondelete="SET NULL"), nullable=True
     )
     symbol: Mapped[str] = mapped_column(
@@ -170,18 +170,18 @@ class Trade(Base):
     direction: Mapped[str] = mapped_column(String(10))  # LONG/SHORT
     entry_price: Mapped[float] = mapped_column(Float)
     entry_time: Mapped[datetime] = mapped_column(DateTime)
-    exit_price: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
-    exit_time: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+    exit_price: Mapped[float | None] = mapped_column(Float, nullable=True)
+    exit_time: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     quantity: Mapped[int] = mapped_column(Integer)
-    stop_price: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
-    target_price: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
-    pnl: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
-    pnl_pct: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
-    r_multiple: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
+    stop_price: Mapped[float | None] = mapped_column(Float, nullable=True)
+    target_price: Mapped[float | None] = mapped_column(Float, nullable=True)
+    pnl: Mapped[float | None] = mapped_column(Float, nullable=True)
+    pnl_pct: Mapped[float | None] = mapped_column(Float, nullable=True)
+    r_multiple: Mapped[float | None] = mapped_column(Float, nullable=True)
     status: Mapped[str] = mapped_column(
         String(20), default=TradeStatus.OPEN.value
     )  # OPEN/CLOSED/STOPPED
-    notes: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)
+    notes: Mapped[str | None] = mapped_column(String(500), nullable=True)
 
     # Relationships
     signal: Mapped[Optional["Signal"]] = relationship("Signal", back_populates="trades")

@@ -93,9 +93,8 @@ class TestSettings:
             "TELEGRAM_CHAT_ID": "chat_123",
             "RISK_PER_TRADE": "0.50",  # Too high
         }
-        with patch.dict(os.environ, env_vars, clear=True):
-            with pytest.raises(ValueError):
-                Settings()
+        with patch.dict(os.environ, env_vars, clear=True), pytest.raises(ValueError):
+            Settings()
 
     def test_database_url_string_property(self) -> None:
         """Test database_url_string property returns string."""

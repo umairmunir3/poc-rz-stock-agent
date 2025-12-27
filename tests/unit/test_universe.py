@@ -4,7 +4,7 @@ import json
 import tempfile
 from datetime import datetime, timedelta
 from pathlib import Path
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, patch
 
 import pytest
 from freezegun import freeze_time
@@ -13,15 +13,12 @@ from src.data.alpha_vantage import AlphaVantageClient
 from src.data.exceptions import AlphaVantageError
 from src.data.universe import (
     StockUniverse,
-    SymbolMetadata,
     UniverseCache,
     UniverseFilters,
 )
 from tests.fixtures.universe_data import (
-    EXPECTED_FILTERED_SYMBOLS,
     SAMPLE_LISTINGS,
     SAMPLE_OVERVIEWS,
-    SYMBOLS_BY_SECTOR,
 )
 
 
