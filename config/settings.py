@@ -119,4 +119,4 @@ def get_settings() -> Settings:
     Returns:
         Settings: Application settings loaded from environment variables.
     """
-    return Settings()
+    return Settings()  # type: ignore[call-arg]

@@ -241,8 +241,9 @@ class DataPipeline:
 
             except RateLimitError as e:
                 # Wait and retry on rate limit
-                logger.warning(f"Rate limited on {symbol}, waiting {e.retry_after}s")
-                await asyncio.sleep(e.retry_after)
+                wait_time = e.retry_after or 60.0
+                logger.warning(f"Rate limited on {symbol}, waiting {wait_time}s")
+                await asyncio.sleep(wait_time)
                 try:
                     await self._fetch_and_store_daily(symbol)
                     stats.success_count += 1
@@ -374,8 +375,9 @@ class DataPipeline:
                     )
 
             except RateLimitError as e:
-                logger.warning(f"Rate limited on {symbol}, waiting {e.retry_after}s")
-                await asyncio.sleep(e.retry_after)
+                wait_time = e.retry_after or 60.0
+                logger.warning(f"Rate limited on {symbol}, waiting {wait_time}s")
+                await asyncio.sleep(wait_time)
                 try:
                     await self._fetch_and_store_history(symbol, start_date)
                     checkpoint.completed_symbols.append(symbol)
@@ -611,7 +613,7 @@ async def _async_handler(
         api_key=settings.alpha_vantage_api_key,
         calls_per_minute=75,
     )
-    storage = StorageManager(settings.database_url)
+    storage = StorageManager(str(settings.database_url))
     universe = StockUniverse(av_client)
 
     pipeline = DataPipeline(av_client, storage, universe)
