@@ -39,9 +39,7 @@ class StorageManager:
         """
         # Convert standard postgres URL to async format if needed
         if database_url.startswith("postgresql://"):
-            database_url = database_url.replace(
-                "postgresql://", "postgresql+asyncpg://", 1
-            )
+            database_url = database_url.replace("postgresql://", "postgresql+asyncpg://", 1)
 
         # SQLite doesn't support pool_size and max_overflow
         if "sqlite" in database_url:
@@ -122,9 +120,7 @@ class StorageManager:
             Stock object or None if not found.
         """
         async with self.async_session() as session:
-            result = await session.execute(
-                select(Stock).where(Stock.symbol == symbol.upper())
-            )
+            result = await session.execute(select(Stock).where(Stock.symbol == symbol.upper()))
             return result.scalar_one_or_none()
 
     async def get_all_stocks(self) -> list[Stock]:
@@ -313,9 +309,7 @@ class StorageManager:
             Signal object or None if not found.
         """
         async with self.async_session() as session:
-            result = await session.execute(
-                select(Signal).where(Signal.id == signal_id)
-            )
+            result = await session.execute(select(Signal).where(Signal.id == signal_id))
             return result.scalar_one_or_none()
 
     async def get_active_signals(self) -> list[Signal]:
@@ -365,9 +359,7 @@ class StorageManager:
         """
         async with self.async_session() as session:
             result = await session.execute(
-                update(Signal)
-                .where(Signal.id == signal_id)
-                .values(status=status.value)
+                update(Signal).where(Signal.id == signal_id).values(status=status.value)
             )
             await session.commit()
             return result.rowcount > 0
@@ -549,9 +541,7 @@ class StorageManager:
         """
         async with self.async_session() as session:
             result = await session.execute(
-                select(PortfolioSnapshot).order_by(
-                    PortfolioSnapshot.timestamp.desc()
-                ).limit(1)
+                select(PortfolioSnapshot).order_by(PortfolioSnapshot.timestamp.desc()).limit(1)
             )
             return result.scalar_one_or_none()
 

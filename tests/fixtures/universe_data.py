@@ -18,62 +18,129 @@ SAMPLE_LISTINGS: list[dict[str, Any]] = [
     {"symbol": "JPM", "name": "JPMorgan Chase & Co", "exchange": "NYSE", "assetType": "Stock"},
     {"symbol": "V", "name": "Visa Inc", "exchange": "NYSE", "assetType": "Stock"},
     {"symbol": "JNJ", "name": "Johnson & Johnson", "exchange": "NYSE", "assetType": "Stock"},
-
     # Healthcare stocks (should pass)
     {"symbol": "UNH", "name": "UnitedHealth Group Inc", "exchange": "NYSE", "assetType": "Stock"},
     {"symbol": "PFE", "name": "Pfizer Inc", "exchange": "NYSE", "assetType": "Stock"},
     {"symbol": "MRK", "name": "Merck & Co Inc", "exchange": "NYSE", "assetType": "Stock"},
     {"symbol": "ABBV", "name": "AbbVie Inc", "exchange": "NYSE", "assetType": "Stock"},
     {"symbol": "LLY", "name": "Eli Lilly and Company", "exchange": "NYSE", "assetType": "Stock"},
-
     # Financial stocks (should pass)
     {"symbol": "BAC", "name": "Bank of America Corp", "exchange": "NYSE", "assetType": "Stock"},
     {"symbol": "WFC", "name": "Wells Fargo & Company", "exchange": "NYSE", "assetType": "Stock"},
     {"symbol": "GS", "name": "Goldman Sachs Group Inc", "exchange": "NYSE", "assetType": "Stock"},
     {"symbol": "MS", "name": "Morgan Stanley", "exchange": "NYSE", "assetType": "Stock"},
     {"symbol": "C", "name": "Citigroup Inc", "exchange": "NYSE", "assetType": "Stock"},
-
     # Industrial stocks (should pass)
     {"symbol": "CAT", "name": "Caterpillar Inc", "exchange": "NYSE", "assetType": "Stock"},
     {"symbol": "BA", "name": "Boeing Company", "exchange": "NYSE", "assetType": "Stock"},
-    {"symbol": "HON", "name": "Honeywell International Inc", "exchange": "NASDAQ", "assetType": "Stock"},
-    {"symbol": "UPS", "name": "United Parcel Service Inc", "exchange": "NYSE", "assetType": "Stock"},
+    {
+        "symbol": "HON",
+        "name": "Honeywell International Inc",
+        "exchange": "NASDAQ",
+        "assetType": "Stock",
+    },
+    {
+        "symbol": "UPS",
+        "name": "United Parcel Service Inc",
+        "exchange": "NYSE",
+        "assetType": "Stock",
+    },
     {"symbol": "GE", "name": "General Electric Company", "exchange": "NYSE", "assetType": "Stock"},
-
     # Consumer stocks (should pass)
     {"symbol": "PG", "name": "Procter & Gamble Company", "exchange": "NYSE", "assetType": "Stock"},
     {"symbol": "KO", "name": "Coca-Cola Company", "exchange": "NYSE", "assetType": "Stock"},
     {"symbol": "PEP", "name": "PepsiCo Inc", "exchange": "NASDAQ", "assetType": "Stock"},
     {"symbol": "WMT", "name": "Walmart Inc", "exchange": "NYSE", "assetType": "Stock"},
-    {"symbol": "COST", "name": "Costco Wholesale Corporation", "exchange": "NASDAQ", "assetType": "Stock"},
-
+    {
+        "symbol": "COST",
+        "name": "Costco Wholesale Corporation",
+        "exchange": "NASDAQ",
+        "assetType": "Stock",
+    },
     # ADRs (should be excluded with exclude_adrs=True)
-    {"symbol": "TSM.Y", "name": "Taiwan Semiconductor ADR", "exchange": "NYSE", "assetType": "Stock"},
+    {
+        "symbol": "TSM.Y",
+        "name": "Taiwan Semiconductor ADR",
+        "exchange": "NYSE",
+        "assetType": "Stock",
+    },
     {"symbol": "BABA.Y", "name": "Alibaba Group ADR", "exchange": "NYSE", "assetType": "Stock"},
     {"symbol": "NIO.F", "name": "NIO Inc ADR", "exchange": "NYSE", "assetType": "Stock"},
-    {"symbol": "SONY", "name": "Sony Group Corporation ADR", "exchange": "OTC", "assetType": "Stock"},
+    {
+        "symbol": "SONY",
+        "name": "Sony Group Corporation ADR",
+        "exchange": "OTC",
+        "assetType": "Stock",
+    },
     {"symbol": "TCEHY", "name": "Tencent Holdings ADR", "exchange": "PINK", "assetType": "Stock"},
-
     # ETFs (should be excluded with exclude_etfs=True)
     {"symbol": "SPY", "name": "SPDR S&P 500 ETF Trust", "exchange": "NYSE", "assetType": "ETF"},
     {"symbol": "QQQ", "name": "Invesco QQQ Trust", "exchange": "NASDAQ", "assetType": "ETF"},
     {"symbol": "IWM", "name": "iShares Russell 2000 ETF", "exchange": "NYSE", "assetType": "ETF"},
-    {"symbol": "VTI", "name": "Vanguard Total Stock Market ETF", "exchange": "NYSE", "assetType": "ETF"},
+    {
+        "symbol": "VTI",
+        "name": "Vanguard Total Stock Market ETF",
+        "exchange": "NYSE",
+        "assetType": "ETF",
+    },
     {"symbol": "GLD", "name": "SPDR Gold Shares ETF", "exchange": "NYSE", "assetType": "ETN"},
-
     # REITs (should be excluded with exclude_reits=True)
-    {"symbol": "SPG", "name": "Simon Property Group REIT", "exchange": "NYSE", "assetType": "Stock"},
-    {"symbol": "O", "name": "Realty Income Corporation REIT", "exchange": "NYSE", "assetType": "Stock"},
-    {"symbol": "AMT", "name": "American Tower REIT Corporation", "exchange": "NYSE", "assetType": "Stock"},
-    {"symbol": "PLD", "name": "Prologis Real Estate Investment Trust", "exchange": "NYSE", "assetType": "Stock"},
+    {
+        "symbol": "SPG",
+        "name": "Simon Property Group REIT",
+        "exchange": "NYSE",
+        "assetType": "Stock",
+    },
+    {
+        "symbol": "O",
+        "name": "Realty Income Corporation REIT",
+        "exchange": "NYSE",
+        "assetType": "Stock",
+    },
+    {
+        "symbol": "AMT",
+        "name": "American Tower REIT Corporation",
+        "exchange": "NYSE",
+        "assetType": "Stock",
+    },
+    {
+        "symbol": "PLD",
+        "name": "Prologis Real Estate Investment Trust",
+        "exchange": "NYSE",
+        "assetType": "Stock",
+    },
     {"symbol": "EQIX", "name": "Equinix Inc REIT", "exchange": "NASDAQ", "assetType": "Stock"},
-
     # SPACs (should be excluded with exclude_spacs=True)
-    {"symbol": "PSTH", "name": "Pershing Square Tontine Acquisition Corp", "exchange": "NYSE", "assetType": "Stock"},
-    {"symbol": "CCIV", "name": "Churchill Capital Acquisition Company", "exchange": "NYSE", "assetType": "Stock"},
-    {"symbol": "SPCE", "name": "Virgin Galactic SPAC Holdings", "exchange": "NYSE", "assetType": "Stock"},
-    {"symbol": "DKNG", "name": "DraftKings Blank Check Company", "exchange": "NASDAQ", "assetType": "Stock"},
-    {"symbol": "IPOF", "name": "Social Capital Hedosophia Acquisition Corp", "exchange": "NYSE", "assetType": "Stock"},
+    {
+        "symbol": "PSTH",
+        "name": "Pershing Square Tontine Acquisition Corp",
+        "exchange": "NYSE",
+        "assetType": "Stock",
+    },
+    {
+        "symbol": "CCIV",
+        "name": "Churchill Capital Acquisition Company",
+        "exchange": "NYSE",
+        "assetType": "Stock",
+    },
+    {
+        "symbol": "SPCE",
+        "name": "Virgin Galactic SPAC Holdings",
+        "exchange": "NYSE",
+        "assetType": "Stock",
+    },
+    {
+        "symbol": "DKNG",
+        "name": "DraftKings Blank Check Company",
+        "exchange": "NASDAQ",
+        "assetType": "Stock",
+    },
+    {
+        "symbol": "IPOF",
+        "name": "Social Capital Hedosophia Acquisition Corp",
+        "exchange": "NYSE",
+        "assetType": "Stock",
+    },
 ]
 
 # Company overview data keyed by symbol
@@ -179,7 +246,6 @@ SAMPLE_OVERVIEWS: dict[str, dict[str, Any]] = {
         "fifty_two_week_high": 175.97,
         "fifty_two_week_low": 144.95,
     },
-
     # Healthcare
     "UNH": {
         "symbol": "UNH",
@@ -231,7 +297,6 @@ SAMPLE_OVERVIEWS: dict[str, dict[str, Any]] = {
         "fifty_two_week_high": 629.97,
         "fifty_two_week_low": 309.20,
     },
-
     # Financial
     "BAC": {
         "symbol": "BAC",
@@ -283,7 +348,6 @@ SAMPLE_OVERVIEWS: dict[str, dict[str, Any]] = {
         "fifty_two_week_high": 53.23,
         "fifty_two_week_low": 38.17,
     },
-
     # Industrial
     "CAT": {
         "symbol": "CAT",
@@ -335,7 +399,6 @@ SAMPLE_OVERVIEWS: dict[str, dict[str, Any]] = {
         "fifty_two_week_high": 124.86,
         "fifty_two_week_low": 81.90,
     },
-
     # Consumer
     "PG": {
         "symbol": "PG",
@@ -387,7 +450,6 @@ SAMPLE_OVERVIEWS: dict[str, dict[str, Any]] = {
         "fifty_two_week_high": 704.89,
         "fifty_two_week_low": 466.59,
     },
-
     # REITs (should be excluded)
     "SPG": {
         "symbol": "SPG",
@@ -439,7 +501,6 @@ SAMPLE_OVERVIEWS: dict[str, dict[str, Any]] = {
         "fifty_two_week_high": 848.92,
         "fifty_two_week_low": 623.45,
     },
-
     # Low market cap stocks (should be filtered out by min_market_cap)
     "SMALL1": {
         "symbol": "SMALL1",
@@ -471,7 +532,6 @@ SAMPLE_OVERVIEWS: dict[str, dict[str, Any]] = {
         "fifty_two_week_high": 55.00,
         "fifty_two_week_low": 35.00,
     },
-
     # Penny stocks (should be filtered by min_price)
     "PENNY1": {
         "symbol": "PENNY1",
@@ -496,20 +556,69 @@ SAMPLE_OVERVIEWS: dict[str, dict[str, Any]] = {
 }
 
 # Additional listings for small-cap and penny stocks
-SAMPLE_LISTINGS.extend([
-    {"symbol": "SMALL1", "name": "Small Cap Corp 1", "exchange": "NASDAQ", "assetType": "Stock"},
-    {"symbol": "SMALL2", "name": "Small Cap Corp 2", "exchange": "NASDAQ", "assetType": "Stock"},
-    {"symbol": "SMALL3", "name": "Small Cap Corp 3", "exchange": "NYSE", "assetType": "Stock"},
-    {"symbol": "PENNY1", "name": "Penny Stock Corp 1", "exchange": "NASDAQ", "assetType": "Stock"},
-    {"symbol": "PENNY2", "name": "Penny Stock Corp 2", "exchange": "NASDAQ", "assetType": "Stock"},
-])
+SAMPLE_LISTINGS.extend(
+    [
+        {
+            "symbol": "SMALL1",
+            "name": "Small Cap Corp 1",
+            "exchange": "NASDAQ",
+            "assetType": "Stock",
+        },
+        {
+            "symbol": "SMALL2",
+            "name": "Small Cap Corp 2",
+            "exchange": "NASDAQ",
+            "assetType": "Stock",
+        },
+        {"symbol": "SMALL3", "name": "Small Cap Corp 3", "exchange": "NYSE", "assetType": "Stock"},
+        {
+            "symbol": "PENNY1",
+            "name": "Penny Stock Corp 1",
+            "exchange": "NASDAQ",
+            "assetType": "Stock",
+        },
+        {
+            "symbol": "PENNY2",
+            "name": "Penny Stock Corp 2",
+            "exchange": "NASDAQ",
+            "assetType": "Stock",
+        },
+    ]
+)
 
 # Expected symbols after applying all default filters
 # Should include: Large-cap stocks that are not ADRs, ETFs, REITs, or SPACs
 EXPECTED_FILTERED_SYMBOLS = [
-    "AAPL", "ABBV", "AMZN", "BA", "BAC", "C", "CAT", "COST", "GE", "GOOGL",
-    "GS", "HON", "JNJ", "JPM", "KO", "LLY", "META", "MRK", "MS", "MSFT",
-    "NVDA", "PEP", "PFE", "PG", "TSLA", "UNH", "UPS", "V", "WFC", "WMT",
+    "AAPL",
+    "ABBV",
+    "AMZN",
+    "BA",
+    "BAC",
+    "C",
+    "CAT",
+    "COST",
+    "GE",
+    "GOOGL",
+    "GS",
+    "HON",
+    "JNJ",
+    "JPM",
+    "KO",
+    "LLY",
+    "META",
+    "MRK",
+    "MS",
+    "MSFT",
+    "NVDA",
+    "PEP",
+    "PFE",
+    "PG",
+    "TSLA",
+    "UNH",
+    "UPS",
+    "V",
+    "WFC",
+    "WMT",
 ]
 
 # Symbols by sector for testing filter_by_sector

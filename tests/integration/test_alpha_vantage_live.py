@@ -74,9 +74,7 @@ class TestAlphaVantageLive:
         await client.close()
 
     @pytest.mark.asyncio
-    async def test_get_company_overview_live(
-        self, client: AlphaVantageClient
-    ) -> None:
+    async def test_get_company_overview_live(self, client: AlphaVantageClient) -> None:
         """Test fetching real company overview from API."""
         result = await client.get_company_overview("IBM")
 

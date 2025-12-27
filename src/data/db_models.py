@@ -188,7 +188,9 @@ class Trade(Base):
     stock: Mapped["Stock"] = relationship("Stock", back_populates="trades")
 
     def __repr__(self) -> str:
-        return f"<Trade(id={self.id}, symbol='{self.symbol}', status='{self.status}', pnl={self.pnl})>"
+        return (
+            f"<Trade(id={self.id}, symbol='{self.symbol}', status='{self.status}', pnl={self.pnl})>"
+        )
 
     def calculate_pnl(self) -> None:
         """Calculate PnL metrics when trade is closed."""

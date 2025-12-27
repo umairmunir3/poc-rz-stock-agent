@@ -462,9 +462,7 @@ class StockUniverse:
         if filters.exclude_reits:
             sector = (overview.get("sector") or "").upper()
             industry = (overview.get("industry") or "").upper()
-            if "REAL ESTATE" in sector or any(
-                kw.upper() in industry for kw in REIT_KEYWORDS
-            ):
+            if "REAL ESTATE" in sector or any(kw.upper() in industry for kw in REIT_KEYWORDS):
                 return False
 
         # Store metadata for caching

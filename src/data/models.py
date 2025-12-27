@@ -96,9 +96,7 @@ class CompanyOverview(BaseModel):
     fifty_two_week_high: float | None = Field(None, alias="52WeekHigh")
     fifty_two_week_low: float | None = Field(None, alias="52WeekLow")
     fifty_day_moving_average: float | None = Field(None, alias="50DayMovingAverage")
-    two_hundred_day_moving_average: float | None = Field(
-        None, alias="200DayMovingAverage"
-    )
+    two_hundred_day_moving_average: float | None = Field(None, alias="200DayMovingAverage")
     beta: float | None = Field(None, alias="Beta")
 
     model_config = {"populate_by_name": True}

@@ -153,8 +153,18 @@ class TestStockUniverse:
         # Create listings with only market cap test stocks
         test_listings = [
             {"symbol": "AAPL", "name": "Apple Inc", "exchange": "NASDAQ", "assetType": "Stock"},
-            {"symbol": "SMALL1", "name": "Small Cap Corp 1", "exchange": "NASDAQ", "assetType": "Stock"},
-            {"symbol": "SMALL2", "name": "Small Cap Corp 2", "exchange": "NASDAQ", "assetType": "Stock"},
+            {
+                "symbol": "SMALL1",
+                "name": "Small Cap Corp 1",
+                "exchange": "NASDAQ",
+                "assetType": "Stock",
+            },
+            {
+                "symbol": "SMALL2",
+                "name": "Small Cap Corp 2",
+                "exchange": "NASDAQ",
+                "assetType": "Stock",
+            },
         ]
 
         with patch.object(universe, "_fetch_listings", return_value=test_listings):
@@ -166,14 +176,22 @@ class TestStockUniverse:
         assert "SMALL2" not in result
 
     @pytest.mark.asyncio
-    async def test_filters_by_price(
-        self, universe: StockUniverse, mock_client: AsyncMock
-    ) -> None:
+    async def test_filters_by_price(self, universe: StockUniverse, mock_client: AsyncMock) -> None:
         """Test that penny stocks below $10 are excluded."""
         test_listings = [
             {"symbol": "MSFT", "name": "Microsoft", "exchange": "NASDAQ", "assetType": "Stock"},
-            {"symbol": "PENNY1", "name": "Penny Stock 1", "exchange": "NASDAQ", "assetType": "Stock"},
-            {"symbol": "PENNY2", "name": "Penny Stock 2", "exchange": "NASDAQ", "assetType": "Stock"},
+            {
+                "symbol": "PENNY1",
+                "name": "Penny Stock 1",
+                "exchange": "NASDAQ",
+                "assetType": "Stock",
+            },
+            {
+                "symbol": "PENNY2",
+                "name": "Penny Stock 2",
+                "exchange": "NASDAQ",
+                "assetType": "Stock",
+            },
         ]
 
         with patch.object(universe, "_fetch_listings", return_value=test_listings):
@@ -185,13 +203,16 @@ class TestStockUniverse:
         assert "PENNY2" not in result
 
     @pytest.mark.asyncio
-    async def test_excludes_adrs(
-        self, universe: StockUniverse, mock_client: AsyncMock
-    ) -> None:
+    async def test_excludes_adrs(self, universe: StockUniverse, mock_client: AsyncMock) -> None:
         """Test that ADRs (symbols ending in .Y/.F or on OTC) are excluded."""
         test_listings = [
             {"symbol": "AAPL", "name": "Apple Inc", "exchange": "NASDAQ", "assetType": "Stock"},
-            {"symbol": "TSM.Y", "name": "Taiwan Semi ADR", "exchange": "NYSE", "assetType": "Stock"},
+            {
+                "symbol": "TSM.Y",
+                "name": "Taiwan Semi ADR",
+                "exchange": "NYSE",
+                "assetType": "Stock",
+            },
             {"symbol": "NIO.F", "name": "NIO ADR", "exchange": "NYSE", "assetType": "Stock"},
             {"symbol": "SONY", "name": "Sony ADR", "exchange": "OTC", "assetType": "Stock"},
             {"symbol": "TCEHY", "name": "Tencent ADR", "exchange": "PINK", "assetType": "Stock"},
@@ -207,9 +228,7 @@ class TestStockUniverse:
         assert "TCEHY" not in result
 
     @pytest.mark.asyncio
-    async def test_excludes_etfs(
-        self, universe: StockUniverse, mock_client: AsyncMock
-    ) -> None:
+    async def test_excludes_etfs(self, universe: StockUniverse, mock_client: AsyncMock) -> None:
         """Test that ETF types are excluded."""
         test_listings = [
             {"symbol": "AAPL", "name": "Apple Inc", "exchange": "NASDAQ", "assetType": "Stock"},
@@ -227,15 +246,23 @@ class TestStockUniverse:
         assert "GLD" not in result
 
     @pytest.mark.asyncio
-    async def test_excludes_reits(
-        self, universe: StockUniverse, mock_client: AsyncMock
-    ) -> None:
+    async def test_excludes_reits(self, universe: StockUniverse, mock_client: AsyncMock) -> None:
         """Test that REITs are excluded based on name and sector."""
         test_listings = [
             {"symbol": "AAPL", "name": "Apple Inc", "exchange": "NASDAQ", "assetType": "Stock"},
-            {"symbol": "SPG", "name": "Simon Property REIT", "exchange": "NYSE", "assetType": "Stock"},
+            {
+                "symbol": "SPG",
+                "name": "Simon Property REIT",
+                "exchange": "NYSE",
+                "assetType": "Stock",
+            },
             {"symbol": "O", "name": "Realty Income REIT", "exchange": "NYSE", "assetType": "Stock"},
-            {"symbol": "PLD", "name": "Prologis Real Estate Investment Trust", "exchange": "NYSE", "assetType": "Stock"},
+            {
+                "symbol": "PLD",
+                "name": "Prologis Real Estate Investment Trust",
+                "exchange": "NYSE",
+                "assetType": "Stock",
+            },
         ]
 
         with patch.object(universe, "_fetch_listings", return_value=test_listings):
@@ -247,15 +274,28 @@ class TestStockUniverse:
         assert "PLD" not in result
 
     @pytest.mark.asyncio
-    async def test_excludes_spacs(
-        self, universe: StockUniverse, mock_client: AsyncMock
-    ) -> None:
+    async def test_excludes_spacs(self, universe: StockUniverse, mock_client: AsyncMock) -> None:
         """Test that SPACs are excluded based on name patterns."""
         test_listings = [
             {"symbol": "AAPL", "name": "Apple Inc", "exchange": "NASDAQ", "assetType": "Stock"},
-            {"symbol": "PSTH", "name": "Pershing Square Acquisition Corp", "exchange": "NYSE", "assetType": "Stock"},
-            {"symbol": "CCIV", "name": "Churchill Capital Acquisition Company", "exchange": "NYSE", "assetType": "Stock"},
-            {"symbol": "DKNG", "name": "DraftKings Blank Check Company", "exchange": "NASDAQ", "assetType": "Stock"},
+            {
+                "symbol": "PSTH",
+                "name": "Pershing Square Acquisition Corp",
+                "exchange": "NYSE",
+                "assetType": "Stock",
+            },
+            {
+                "symbol": "CCIV",
+                "name": "Churchill Capital Acquisition Company",
+                "exchange": "NYSE",
+                "assetType": "Stock",
+            },
+            {
+                "symbol": "DKNG",
+                "name": "DraftKings Blank Check Company",
+                "exchange": "NASDAQ",
+                "assetType": "Stock",
+            },
         ]
 
         with patch.object(universe, "_fetch_listings", return_value=test_listings):
@@ -267,9 +307,7 @@ class TestStockUniverse:
         assert "DKNG" not in result
 
     @pytest.mark.asyncio
-    async def test_combined_filters(
-        self, universe: StockUniverse, mock_client: AsyncMock
-    ) -> None:
+    async def test_combined_filters(self, universe: StockUniverse, mock_client: AsyncMock) -> None:
         """Test that all filters work together correctly."""
         # Use subset of sample listings
         test_listings = SAMPLE_LISTINGS[:35]  # Include various types
@@ -281,10 +319,36 @@ class TestStockUniverse:
         for symbol in result:
             # Verify each passed symbol is a valid large-cap stock
             assert symbol in SAMPLE_OVERVIEWS or symbol in [
-                "AAPL", "MSFT", "GOOGL", "AMZN", "META", "NVDA", "TSLA",
-                "JPM", "V", "JNJ", "UNH", "PFE", "MRK", "ABBV", "LLY",
-                "BAC", "WFC", "GS", "MS", "C", "CAT", "BA", "HON", "UPS", "GE",
-                "PG", "KO", "PEP", "WMT", "COST",
+                "AAPL",
+                "MSFT",
+                "GOOGL",
+                "AMZN",
+                "META",
+                "NVDA",
+                "TSLA",
+                "JPM",
+                "V",
+                "JNJ",
+                "UNH",
+                "PFE",
+                "MRK",
+                "ABBV",
+                "LLY",
+                "BAC",
+                "WFC",
+                "GS",
+                "MS",
+                "C",
+                "CAT",
+                "BA",
+                "HON",
+                "UPS",
+                "GE",
+                "PG",
+                "KO",
+                "PEP",
+                "WMT",
+                "COST",
             ]
 
     @pytest.mark.asyncio
@@ -404,9 +468,7 @@ class TestStockUniverse:
         assert metadata.name == "UNKNOWN"
 
     @pytest.mark.asyncio
-    async def test_filter_by_sector(
-        self, universe: StockUniverse, mock_client: AsyncMock
-    ) -> None:
+    async def test_filter_by_sector(self, universe: StockUniverse, mock_client: AsyncMock) -> None:
         """Test filtering symbols by sector."""
         # Pre-populate cache with tech stocks
         test_listings = [
@@ -425,9 +487,7 @@ class TestStockUniverse:
         assert "JPM" not in tech_stocks  # Financial Services
 
     @pytest.mark.asyncio
-    async def test_custom_filters(
-        self, universe: StockUniverse, mock_client: AsyncMock
-    ) -> None:
+    async def test_custom_filters(self, universe: StockUniverse, mock_client: AsyncMock) -> None:
         """Test using custom filter criteria."""
         test_listings = [
             {"symbol": "AAPL", "name": "Apple", "exchange": "NASDAQ", "assetType": "Stock"},
@@ -524,14 +584,24 @@ class TestQuickFilters:
 
         # "Acquisition Corp"
         result = universe._passes_quick_filters(
-            {"symbol": "TEST", "name": "Test Acquisition Corp", "exchange": "NYSE", "assetType": "Stock"},
+            {
+                "symbol": "TEST",
+                "name": "Test Acquisition Corp",
+                "exchange": "NYSE",
+                "assetType": "Stock",
+            },
             filters,
         )
         assert result is False
 
         # "Blank Check"
         result = universe._passes_quick_filters(
-            {"symbol": "TEST", "name": "Test Blank Check Company", "exchange": "NYSE", "assetType": "Stock"},
+            {
+                "symbol": "TEST",
+                "name": "Test Blank Check Company",
+                "exchange": "NYSE",
+                "assetType": "Stock",
+            },
             filters,
         )
         assert result is False
@@ -596,9 +666,7 @@ class TestCacheOperations:
         assert loaded.metadata == cache.metadata
 
     @pytest.mark.asyncio
-    async def test_load_missing_cache(
-        self, universe: StockUniverse, temp_cache_dir: Path
-    ) -> None:
+    async def test_load_missing_cache(self, universe: StockUniverse, temp_cache_dir: Path) -> None:
         """Test loading when cache file doesn't exist."""
         loaded = await universe._load_cache_local()
         assert loaded is None

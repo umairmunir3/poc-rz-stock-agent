@@ -144,9 +144,7 @@ class TestAlphaVantageClient:
         await client.close()
 
     @pytest.mark.asyncio
-    async def test_get_daily_ohlcv_invalid_symbol(
-        self, client: AlphaVantageClient
-    ) -> None:
+    async def test_get_daily_ohlcv_invalid_symbol(self, client: AlphaVantageClient) -> None:
         """Test that InvalidSymbolError is raised for unknown symbols."""
         mock_response = AsyncMock(spec=httpx.Response)
         mock_response.status_code = 200
@@ -326,9 +324,7 @@ class TestAlphaVantageClient:
         await client.close()
 
     @pytest.mark.asyncio
-    async def test_company_overview_with_nulls(
-        self, client: AlphaVantageClient
-    ) -> None:
+    async def test_company_overview_with_nulls(self, client: AlphaVantageClient) -> None:
         """Test handling of null values in company overview."""
         mock_response = AsyncMock(spec=httpx.Response)
         mock_response.status_code = 200
@@ -461,9 +457,7 @@ class TestAdditionalCoverage:
         await client.close()
 
     @pytest.mark.asyncio
-    async def test_unexpected_response_format_daily(
-        self, client: AlphaVantageClient
-    ) -> None:
+    async def test_unexpected_response_format_daily(self, client: AlphaVantageClient) -> None:
         """Test handling of unexpected response format for daily data."""
         mock_response = AsyncMock(spec=httpx.Response)
         mock_response.status_code = 200
@@ -478,9 +472,7 @@ class TestAdditionalCoverage:
         await client.close()
 
     @pytest.mark.asyncio
-    async def test_unexpected_response_format_intraday(
-        self, client: AlphaVantageClient
-    ) -> None:
+    async def test_unexpected_response_format_intraday(self, client: AlphaVantageClient) -> None:
         """Test handling of unexpected response format for intraday data."""
         mock_response = AsyncMock(spec=httpx.Response)
         mock_response.status_code = 200
@@ -495,9 +487,7 @@ class TestAdditionalCoverage:
         await client.close()
 
     @pytest.mark.asyncio
-    async def test_company_overview_invalid_symbol(
-        self, client: AlphaVantageClient
-    ) -> None:
+    async def test_company_overview_invalid_symbol(self, client: AlphaVantageClient) -> None:
         """Test InvalidSymbolError for empty company overview."""
         mock_response = AsyncMock(spec=httpx.Response)
         mock_response.status_code = 200
@@ -511,9 +501,7 @@ class TestAdditionalCoverage:
         await client.close()
 
     @pytest.mark.asyncio
-    async def test_options_chain_no_data_key(
-        self, client: AlphaVantageClient
-    ) -> None:
+    async def test_options_chain_no_data_key(self, client: AlphaVantageClient) -> None:
         """Test options chain with no data key returns empty lists."""
         mock_response = AsyncMock(spec=httpx.Response)
         mock_response.status_code = 200
@@ -530,6 +518,7 @@ class TestAdditionalCoverage:
     @pytest.mark.asyncio
     async def test_timeout_max_retries(self, client: AlphaVantageClient) -> None:
         """Test that timeout errors exhaust retries."""
+
         async def mock_get(*args, **kwargs):
             raise httpx.TimeoutException("Request timed out")
 
@@ -548,9 +537,7 @@ class TestAdditionalCoverage:
         await client.close()  # Should not raise
 
     @pytest.mark.asyncio
-    async def test_get_client_reuses_existing(
-        self, client: AlphaVantageClient
-    ) -> None:
+    async def test_get_client_reuses_existing(self, client: AlphaVantageClient) -> None:
         """Test that _get_client reuses existing client."""
         client1 = await client._get_client()
         client2 = await client._get_client()
@@ -565,13 +552,15 @@ class TestPydanticModels:
         """Test OHLCVData parses string values correctly."""
         from src.data.models import OHLCVData
 
-        data = OHLCVData.model_validate({
-            "1. open": "100.50",
-            "2. high": "105.25",
-            "3. low": "99.75",
-            "4. close": "104.00",
-            "5. volume": "1000000",
-        })
+        data = OHLCVData.model_validate(
+            {
+                "1. open": "100.50",
+                "2. high": "105.25",
+                "3. low": "99.75",
+                "4. close": "104.00",
+                "5. volume": "1000000",
+            }
+        )
         assert data.open == 100.50
         assert data.high == 105.25
         assert data.volume == 1000000
@@ -580,14 +569,16 @@ class TestPydanticModels:
         """Test DailyOHLCVData parses correctly."""
         from src.data.models import DailyOHLCVData
 
-        data = DailyOHLCVData.model_validate({
-            "1. open": "100.50",
-            "2. high": "105.25",
-            "3. low": "99.75",
-            "4. close": "104.00",
-            "5. adjusted close": "103.50",
-            "6. volume": "1000000",
-        })
+        data = DailyOHLCVData.model_validate(
+            {
+                "1. open": "100.50",
+                "2. high": "105.25",
+                "3. low": "99.75",
+                "4. close": "104.00",
+                "5. adjusted close": "103.50",
+                "6. volume": "1000000",
+            }
+        )
         assert data.adjusted_close == 103.50
         assert data.volume == 1000000
 
@@ -595,22 +586,24 @@ class TestPydanticModels:
         """Test CompanyOverview handles various numeric formats."""
         from src.data.models import CompanyOverview
 
-        data = CompanyOverview.model_validate({
-            "Symbol": "TEST",
-            "Name": "Test Corp",
-            "Description": "Test company",
-            "Exchange": "NYSE",
-            "Currency": "USD",
-            "Country": "USA",
-            "Sector": "Technology",
-            "Industry": "Software",
-            "MarketCapitalization": "1000000000",
-            "PERatio": "25.5",
-            "EPS": "-",  # Dash should become None
-            "DividendYield": "None",  # None string should become None
-            "52WeekHigh": "150.00",
-            "52WeekLow": "100.00",
-        })
+        data = CompanyOverview.model_validate(
+            {
+                "Symbol": "TEST",
+                "Name": "Test Corp",
+                "Description": "Test company",
+                "Exchange": "NYSE",
+                "Currency": "USD",
+                "Country": "USA",
+                "Sector": "Technology",
+                "Industry": "Software",
+                "MarketCapitalization": "1000000000",
+                "PERatio": "25.5",
+                "EPS": "-",  # Dash should become None
+                "DividendYield": "None",  # None string should become None
+                "52WeekHigh": "150.00",
+                "52WeekLow": "100.00",
+            }
+        )
         assert data.market_capitalization == 1000000000
         assert data.pe_ratio == 25.5
         assert data.eps is None
@@ -620,23 +613,25 @@ class TestPydanticModels:
         """Test OptionContract parses all fields."""
         from src.data.models import OptionContract
 
-        data = OptionContract.model_validate({
-            "contractID": "TEST240119C00100000",
-            "symbol": "TEST",
-            "expiration": "2024-01-19",
-            "strike": "100.00",
-            "type": "call",
-            "lastPrice": "5.50",
-            "bid": "5.40",
-            "ask": "5.60",
-            "volume": "1000",
-            "openInterest": "5000",
-            "impliedVolatility": "0.25",
-            "delta": "0.55",
-            "gamma": "0.03",
-            "theta": "-0.10",
-            "vega": "0.15",
-        })
+        data = OptionContract.model_validate(
+            {
+                "contractID": "TEST240119C00100000",
+                "symbol": "TEST",
+                "expiration": "2024-01-19",
+                "strike": "100.00",
+                "type": "call",
+                "lastPrice": "5.50",
+                "bid": "5.40",
+                "ask": "5.60",
+                "volume": "1000",
+                "openInterest": "5000",
+                "impliedVolatility": "0.25",
+                "delta": "0.55",
+                "gamma": "0.03",
+                "theta": "-0.10",
+                "vega": "0.15",
+            }
+        )
         assert data.strike == 100.00
         assert data.delta == 0.55
         assert data.volume == 1000
@@ -645,18 +640,20 @@ class TestPydanticModels:
         """Test OptionContract handles None and dash values."""
         from src.data.models import OptionContract
 
-        data = OptionContract.model_validate({
-            "contractID": "TEST240119C00100000",
-            "symbol": "TEST",
-            "expiration": "2024-01-19",
-            "strike": "100.00",
-            "type": "call",
-            "lastPrice": "None",
-            "bid": "-",
-            "ask": None,
-            "volume": "None",
-            "openInterest": "-",
-        })
+        data = OptionContract.model_validate(
+            {
+                "contractID": "TEST240119C00100000",
+                "symbol": "TEST",
+                "expiration": "2024-01-19",
+                "strike": "100.00",
+                "type": "call",
+                "lastPrice": "None",
+                "bid": "-",
+                "ask": None,
+                "volume": "None",
+                "openInterest": "-",
+            }
+        )
         assert data.last_price is None
         assert data.bid is None
         assert data.ask is None

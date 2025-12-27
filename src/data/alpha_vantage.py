@@ -114,10 +114,8 @@ class AlphaVantageClient:
             # Handle retryable errors
             if response.status_code in RETRYABLE_STATUS_CODES:
                 if retry_count < MAX_RETRIES:
-                    backoff = RETRY_BACKOFF_FACTOR ** retry_count
-                    logger.warning(
-                        f"Retrying after {backoff}s due to {response.status_code}"
-                    )
+                    backoff = RETRY_BACKOFF_FACTOR**retry_count
+                    logger.warning(f"Retrying after {backoff}s due to {response.status_code}")
                     await self._sleep(backoff)
                     return await self._request(params, retry_count + 1)
                 raise AlphaVantageError(
@@ -151,7 +149,7 @@ class AlphaVantageClient:
 
         except httpx.TimeoutException as e:
             if retry_count < MAX_RETRIES:
-                backoff = RETRY_BACKOFF_FACTOR ** retry_count
+                backoff = RETRY_BACKOFF_FACTOR**retry_count
                 logger.warning(f"Timeout, retrying after {backoff}s")
                 await self._sleep(backoff)
                 return await self._request(params, retry_count + 1)
@@ -263,9 +261,7 @@ class AlphaVantageClient:
             AlphaVantageError: For other API errors.
         """
         if interval not in VALID_INTERVALS:
-            raise ValueError(
-                f"Invalid interval: {interval}. Must be one of {VALID_INTERVALS}"
-            )
+            raise ValueError(f"Invalid interval: {interval}. Must be one of {VALID_INTERVALS}")
 
         params = {
             "function": "TIME_SERIES_INTRADAY",
