@@ -23,8 +23,7 @@ classifiers = [
 dependencies = [
     "pandas>=2.0.0",
     "numpy>=1.24.0",
-    "TA-Lib>=0.4.28",
-    "pandas-ta>=0.3.14b",
+    "ta>=0.11.0",
     "requests>=2.31.0",
     "boto3>=1.28.0",
     "psycopg2-binary>=2.9.0",
@@ -146,8 +145,7 @@ explicit_package_bases = true
 [[tool.mypy.overrides]]
 module = [
     "ib_insync.*",
-    "talib.*",
-    "pandas_ta.*",
+    "ta.*",
     "telegram.*",
     "boto3.*",
     "botocore.*",
