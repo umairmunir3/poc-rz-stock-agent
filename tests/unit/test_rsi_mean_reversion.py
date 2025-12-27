@@ -332,9 +332,7 @@ class TestScanMethod:
         signal = strategy.scan(downtrend_oversold_df)
         assert signal is None
 
-    def test_ignores_uptrend_when_disabled(
-        self, downtrend_oversold_df: pd.DataFrame
-    ) -> None:
+    def test_ignores_uptrend_when_disabled(self, downtrend_oversold_df: pd.DataFrame) -> None:
         """Test that signal can generate when uptrend filter disabled."""
         config = RSIStrategyConfig(require_uptrend=False)
         strategy = RSIMeanReversionStrategy(config=config)
@@ -431,9 +429,7 @@ class TestScoreCalculation:
             # Score should be higher due to deeply oversold + high volume
             assert signal.score >= 60  # Base 50 + at least some bonuses
 
-    def test_score_components_in_metadata(
-        self, uptrend_oversold_df: pd.DataFrame
-    ) -> None:
+    def test_score_components_in_metadata(self, uptrend_oversold_df: pd.DataFrame) -> None:
         """Test that RSI value is in signal metadata."""
         strategy = RSIMeanReversionStrategy()
         signal = strategy.scan(uptrend_oversold_df)

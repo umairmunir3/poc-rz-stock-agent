@@ -27,16 +27,20 @@ def volume_breakout_df() -> pd.DataFrame:
     n_days = 50
 
     # Consolidation period followed by breakout
-    close = np.concatenate([
-        np.linspace(100, 105, 40) + np.random.randn(40) * 0.5,  # Consolidation
-        np.linspace(106, 115, 10),  # Breakout
-    ])
+    close = np.concatenate(
+        [
+            np.linspace(100, 105, 40) + np.random.randn(40) * 0.5,  # Consolidation
+            np.linspace(106, 115, 10),  # Breakout
+        ]
+    )
 
     # High volume on breakout day
-    volume = np.concatenate([
-        np.random.randint(800000, 1200000, 49),  # Normal volume
-        [3000000],  # Breakout volume (2.5x average)
-    ])
+    volume = np.concatenate(
+        [
+            np.random.randint(800000, 1200000, 49),  # Normal volume
+            [3000000],  # Breakout volume (2.5x average)
+        ]
+    )
 
     # Create OHLC that gives strong close (close near high)
     high = close + np.abs(np.random.randn(n_days)) * 1.5
@@ -69,16 +73,20 @@ def no_volume_breakout_df() -> pd.DataFrame:
     n_days = 50
 
     # Price breaks out but on low volume
-    close = np.concatenate([
-        np.linspace(100, 105, 45) + np.random.randn(45) * 0.5,
-        np.linspace(106, 110, 5),  # Breakout
-    ])
+    close = np.concatenate(
+        [
+            np.linspace(100, 105, 45) + np.random.randn(45) * 0.5,
+            np.linspace(106, 110, 5),  # Breakout
+        ]
+    )
 
     # LOW volume on breakout (below 1.5x average)
-    volume = np.concatenate([
-        np.random.randint(900000, 1100000, 49),
-        [1000000],  # Same as average, not 1.5x
-    ])
+    volume = np.concatenate(
+        [
+            np.random.randint(900000, 1100000, 49),
+            [1000000],  # Same as average, not 1.5x
+        ]
+    )
 
     high = close + np.abs(np.random.randn(n_days))
     low = close - np.abs(np.random.randn(n_days)) * 0.3
@@ -106,16 +114,20 @@ def breakdown_df() -> pd.DataFrame:
     n_days = 50
 
     # Price breaks down with volume
-    close = np.concatenate([
-        np.linspace(110, 105, 40) + np.random.randn(40) * 0.5,  # Consolidation
-        np.linspace(104, 95, 10),  # Breakdown
-    ])
+    close = np.concatenate(
+        [
+            np.linspace(110, 105, 40) + np.random.randn(40) * 0.5,  # Consolidation
+            np.linspace(104, 95, 10),  # Breakdown
+        ]
+    )
 
     # High volume on breakdown day
-    volume = np.concatenate([
-        np.random.randint(800000, 1200000, 49),
-        [3000000],  # Breakdown volume
-    ])
+    volume = np.concatenate(
+        [
+            np.random.randint(800000, 1200000, 49),
+            [3000000],  # Breakdown volume
+        ]
+    )
 
     # Create OHLC with weak close (close near low)
     high = close + np.abs(np.random.randn(n_days)) * 0.3
@@ -148,15 +160,19 @@ def weak_close_df() -> pd.DataFrame:
     n_days = 50
 
     # Price breaks out but closes weak
-    close = np.concatenate([
-        np.linspace(100, 105, 45) + np.random.randn(45) * 0.5,
-        np.linspace(106, 108, 5),
-    ])
+    close = np.concatenate(
+        [
+            np.linspace(100, 105, 45) + np.random.randn(45) * 0.5,
+            np.linspace(106, 108, 5),
+        ]
+    )
 
-    volume = np.concatenate([
-        np.random.randint(800000, 1200000, 49),
-        [2500000],  # Good volume
-    ])
+    volume = np.concatenate(
+        [
+            np.random.randint(800000, 1200000, 49),
+            [2500000],  # Good volume
+        ]
+    )
 
     # Close in MIDDLE of range, not upper 25%
     high = close.copy()
@@ -439,14 +455,10 @@ class TestConsolidationDetection:
     ) -> None:
         """Test consolidation detection with custom parameters."""
         # With very tight max range, should not detect
-        _ = strategy.detect_consolidation(
-            consolidation_df, min_days=10, max_range_percent=1.0
-        )
+        _ = strategy.detect_consolidation(consolidation_df, min_days=10, max_range_percent=1.0)
         # May or may not pass depending on data
 
-    def test_insufficient_data_for_consolidation(
-        self, strategy: BreakoutStrategy
-    ) -> None:
+    def test_insufficient_data_for_consolidation(self, strategy: BreakoutStrategy) -> None:
         """Test consolidation with insufficient data."""
         df = pd.DataFrame(
             {
@@ -509,9 +521,7 @@ class TestCheckExit:
             }
         )
 
-    def test_stop_loss_exit(
-        self, strategy: BreakoutStrategy, basic_df: pd.DataFrame
-    ) -> None:
+    def test_stop_loss_exit(self, strategy: BreakoutStrategy, basic_df: pd.DataFrame) -> None:
         """Test that stop loss triggers exit."""
         trade = MockTrade(
             trade_id=1,
@@ -531,9 +541,7 @@ class TestCheckExit:
         # Could be STOP_LOSS or TRAILING_STOP depending on calculation
         assert exit_signal.exit_type in ["STOP_LOSS", "TRAILING_STOP"]
 
-    def test_trailing_stop_exit(
-        self, strategy: BreakoutStrategy, basic_df: pd.DataFrame
-    ) -> None:
+    def test_trailing_stop_exit(self, strategy: BreakoutStrategy, basic_df: pd.DataFrame) -> None:
         """Test that trailing stop triggers exit when profitable."""
         trade = MockTrade(
             trade_id=2,
@@ -584,9 +592,7 @@ class TestCheckExit:
         assert exit_signal is not None
         assert exit_signal.exit_type == "TIME_EXIT"
 
-    def test_no_exit_within_parameters(
-        self, strategy: BreakoutStrategy
-    ) -> None:
+    def test_no_exit_within_parameters(self, strategy: BreakoutStrategy) -> None:
         """Test that no exit when all conditions within limits."""
         np.random.seed(789)
         n_days = 50

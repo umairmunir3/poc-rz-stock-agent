@@ -162,9 +162,7 @@ class ExitSignal:
     """
 
     trade_id: int
-    exit_type: Literal[
-        "STOP_LOSS", "TAKE_PROFIT", "TRAILING_STOP", "STRATEGY_EXIT", "TIME_EXIT"
-    ]
+    exit_type: Literal["STOP_LOSS", "TAKE_PROFIT", "TRAILING_STOP", "STRATEGY_EXIT", "TIME_EXIT"]
     exit_price: float
     reasoning: str
     timestamp: datetime = field(default_factory=datetime.now)

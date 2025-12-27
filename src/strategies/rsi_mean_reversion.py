@@ -327,9 +327,7 @@ class RSIMeanReversionStrategy(Strategy):
 
             # Check overbought exit
             if current_rsi >= self.config.overbought_threshold:
-                logger.info(
-                    f"Trade {trade_id}: RSI overbought exit at {current_rsi:.1f}"
-                )
+                logger.info(f"Trade {trade_id}: RSI overbought exit at {current_rsi:.1f}")
                 return ExitSignal(
                     trade_id=trade_id,
                     exit_type="TAKE_PROFIT",
@@ -341,9 +339,7 @@ class RSIMeanReversionStrategy(Strategy):
             if current_rsi >= self.config.exit_rsi:
                 prev_rsi = float(rsi.iloc[-2])
                 if prev_rsi < self.config.exit_rsi:
-                    logger.info(
-                        f"Trade {trade_id}: RSI crossed above {self.config.exit_rsi}"
-                    )
+                    logger.info(f"Trade {trade_id}: RSI crossed above {self.config.exit_rsi}")
                     return ExitSignal(
                         trade_id=trade_id,
                         exit_type="STRATEGY_EXIT",
@@ -361,9 +357,7 @@ class RSIMeanReversionStrategy(Strategy):
                 days_held = (datetime.now().date() - entry_date).days
 
             if days_held >= self.config.max_hold_days:
-                logger.info(
-                    f"Trade {trade_id}: Time exit after {days_held} days"
-                )
+                logger.info(f"Trade {trade_id}: Time exit after {days_held} days")
                 return ExitSignal(
                     trade_id=trade_id,
                     exit_type="TIME_EXIT",

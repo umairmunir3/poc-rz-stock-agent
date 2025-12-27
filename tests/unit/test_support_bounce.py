@@ -351,8 +351,14 @@ class TestBullishCandleDetection:
         # Bullish engulfing: current bullish engulfs previous bearish
         # Args: curr_open, curr_high, curr_low, curr_close, prev_open, _prev_high, _prev_low, prev_close
         result = strategy._is_bullish_reversal_candle(
-            98, 103, 97, 102,  # Current: bullish
-            101, 102, 99, 99,  # Previous: bearish
+            98,
+            103,
+            97,
+            102,  # Current: bullish
+            101,
+            102,
+            99,
+            99,  # Previous: bearish
         )
         assert result is True
 
@@ -361,8 +367,14 @@ class TestBullishCandleDetection:
         # Hammer: small body, long lower wick
         # Args: curr_open, curr_high, curr_low, curr_close, prev_open, _prev_high, _prev_low, prev_close
         result = strategy._is_bullish_reversal_candle(
-            100, 101, 95, 100.5,  # Current: hammer
-            101, 102, 100, 100,   # Previous
+            100,
+            101,
+            95,
+            100.5,  # Current: hammer
+            101,
+            102,
+            100,
+            100,  # Previous
         )
         assert result is True
 
@@ -371,8 +383,14 @@ class TestBullishCandleDetection:
         # Both candles bearish - no reversal
         # Args: curr_open, curr_high, curr_low, curr_close, prev_open, _prev_high, _prev_low, prev_close
         result = strategy._is_bullish_reversal_candle(
-            102, 103, 99, 100,   # Current: bearish
-            104, 105, 101, 102,  # Previous: bearish
+            102,
+            103,
+            99,
+            100,  # Current: bearish
+            104,
+            105,
+            101,
+            102,  # Previous: bearish
         )
         assert result is False
 

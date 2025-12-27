@@ -805,9 +805,7 @@ class TestStrategy:
         """Test DataFrame validation with valid data."""
         assert strategy.validate_dataframe(valid_df)
 
-    def test_validate_dataframe_missing_column(
-        self, strategy: ConcreteStrategy
-    ) -> None:
+    def test_validate_dataframe_missing_column(self, strategy: ConcreteStrategy) -> None:
         """Test DataFrame validation with missing column."""
         df = pd.DataFrame(
             {
@@ -820,9 +818,7 @@ class TestStrategy:
         )
         assert not strategy.validate_dataframe(df)
 
-    def test_validate_dataframe_case_insensitive(
-        self, strategy: ConcreteStrategy
-    ) -> None:
+    def test_validate_dataframe_case_insensitive(self, strategy: ConcreteStrategy) -> None:
         """Test DataFrame validation is case-insensitive."""
         df = pd.DataFrame(
             {
@@ -855,9 +851,7 @@ class TestStrategy:
         )
         assert stop == 104.0
 
-    def test_calculate_stop_loss_custom_multiplier(
-        self, strategy: ConcreteStrategy
-    ) -> None:
+    def test_calculate_stop_loss_custom_multiplier(self, strategy: ConcreteStrategy) -> None:
         """Test stop loss with custom ATR multiplier."""
         stop = strategy.calculate_stop_loss(
             entry_price=100.0,
@@ -887,9 +881,7 @@ class TestStrategy:
         )
         assert take_profit == 90.0
 
-    def test_calculate_take_profit_custom_rr(
-        self, strategy: ConcreteStrategy
-    ) -> None:
+    def test_calculate_take_profit_custom_rr(self, strategy: ConcreteStrategy) -> None:
         """Test take profit with custom risk-reward ratio."""
         take_profit = strategy.calculate_take_profit(
             entry_price=100.0,
