@@ -13,6 +13,20 @@ from src.data.db_models import (
     TradeStatus,
 )
 from src.data.exceptions import AlphaVantageError, InvalidSymbolError, RateLimitError
+from src.data.ib_client import (
+    AccountSummary,
+    IBClient,
+    IBClientConfig,
+    IBClientError,
+    IBConnectionError,
+    IBDataError,
+    IBPacingError,
+    OptionQuote,
+    OptionsChain,
+    Order,
+    Position,
+    Quote,
+)
 from src.data.pipeline import (
     BackfillCheckpoint,
     DataPipeline,
@@ -25,6 +39,7 @@ from src.data.storage import StorageManager
 from src.data.universe import StockUniverse, SymbolMetadata, UniverseCache, UniverseFilters
 
 __all__ = [
+    "AccountSummary",
     "AlphaVantageClient",
     "AlphaVantageError",
     "BackfillCheckpoint",
@@ -32,9 +47,20 @@ __all__ = [
     "DailyBar",
     "DataPipeline",
     "EventType",
+    "IBClient",
+    "IBClientConfig",
+    "IBClientError",
+    "IBConnectionError",
+    "IBDataError",
+    "IBPacingError",
     "InvalidSymbolError",
+    "OptionQuote",
+    "OptionsChain",
+    "Order",
     "PipelineStats",
     "PortfolioSnapshot",
+    "Position",
+    "Quote",
     "RateLimitError",
     "Signal",
     "SignalDirection",
