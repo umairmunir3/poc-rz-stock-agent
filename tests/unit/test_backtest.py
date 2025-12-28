@@ -225,9 +225,7 @@ class TestPerformanceMetrics:
             for i in range(10)
         ]
 
-        equity_df = pd.DataFrame(
-            {"equity": [10000, 10050, 10100, 10150], "drawdown": [0, 0, 0, 0]}
-        )
+        equity_df = pd.DataFrame({"equity": [10000, 10050, 10100, 10150], "drawdown": [0, 0, 0, 0]})
         metrics = PerformanceMetrics.from_trades(trades, equity_df, 10000, 252)
 
         # 6 winners out of 10 trades
@@ -238,9 +236,7 @@ class TestPerformanceMetrics:
         """Test Sharpe ratio calculation."""
         # Create equity curve with known returns
         equity_values = [10000, 10100, 10200, 10300, 10400]  # 1% daily returns
-        equity_df = pd.DataFrame(
-            {"equity": equity_values, "drawdown": [0] * len(equity_values)}
-        )
+        equity_df = pd.DataFrame({"equity": equity_values, "drawdown": [0] * len(equity_values)})
 
         trades = [
             BacktestTrade(
@@ -892,9 +888,7 @@ class TestBacktestConfig:
 class TestEdgeCases:
     """Tests for edge cases."""
 
-    def test_empty_historical_data(
-        self, backtest_engine: BacktestEngine
-    ) -> None:
+    def test_empty_historical_data(self, backtest_engine: BacktestEngine) -> None:
         """Test handling of empty historical data."""
         result = backtest_engine.run(
             symbols=["AAPL"],

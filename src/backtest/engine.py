@@ -157,19 +157,13 @@ class PerformanceMetrics:
         win_rate = len(winners) / total_trades if total_trades > 0 else 0.0
 
         # Average win/loss percentages
-        avg_win = (
-            sum(t.pnl_percent for t in winners) / len(winners) if winners else 0.0
-        )
-        avg_loss = (
-            abs(sum(t.pnl_percent for t in losers) / len(losers)) if losers else 0.0
-        )
+        avg_win = sum(t.pnl_percent for t in winners) / len(winners) if winners else 0.0
+        avg_loss = abs(sum(t.pnl_percent for t in losers) / len(losers)) if losers else 0.0
 
         # Profit factor
         gross_profits = sum(t.pnl for t in winners)
         gross_losses = abs(sum(t.pnl for t in losers))
-        profit_factor = (
-            gross_profits / gross_losses if gross_losses > 0 else float("inf")
-        )
+        profit_factor = gross_profits / gross_losses if gross_losses > 0 else float("inf")
 
         # Expectancy (average R-multiple)
         r_multiples = [t.r_multiple for t in closed_trades]
@@ -177,9 +171,7 @@ class PerformanceMetrics:
 
         # Average hold days
         hold_days_list = [t.hold_days for t in closed_trades if t.hold_days > 0]
-        avg_hold_days = (
-            sum(hold_days_list) / len(hold_days_list) if hold_days_list else 0.0
-        )
+        avg_hold_days = sum(hold_days_list) / len(hold_days_list) if hold_days_list else 0.0
 
         # Total return
         final_equity = equity_curve["equity"].iloc[-1]
@@ -187,9 +179,7 @@ class PerformanceMetrics:
 
         # CAGR
         years = trading_days / 252 if trading_days > 0 else 1.0
-        cagr = (
-            ((final_equity / initial_capital) ** (1 / years) - 1) if years > 0 else 0.0
-        )
+        cagr = ((final_equity / initial_capital) ** (1 / years) - 1) if years > 0 else 0.0
 
         # Daily returns for Sharpe/Sortino
         equity_values = equity_curve["equity"].values
@@ -197,18 +187,14 @@ class PerformanceMetrics:
 
         # Sharpe ratio (annualized, assuming 252 trading days)
         if len(daily_returns) > 1 and np.std(daily_returns) > 0:
-            sharpe_ratio = (np.mean(daily_returns) / np.std(daily_returns)) * np.sqrt(
-                252
-            )
+            sharpe_ratio = (np.mean(daily_returns) / np.std(daily_returns)) * np.sqrt(252)
         else:
             sharpe_ratio = 0.0
 
         # Sortino ratio (using downside deviation)
         negative_returns = daily_returns[daily_returns < 0]
         if len(negative_returns) > 1 and np.std(negative_returns) > 0:
-            sortino_ratio = (
-                np.mean(daily_returns) / np.std(negative_returns)
-            ) * np.sqrt(252)
+            sortino_ratio = (np.mean(daily_returns) / np.std(negative_returns)) * np.sqrt(252)
         else:
             sortino_ratio = 0.0
 
@@ -529,9 +515,7 @@ class BacktestEngine:
         # Robustness ratio
         robustness_ratio = 0.0
         if in_sample_metrics.total_return > 0:
-            robustness_ratio = (
-                out_of_sample_metrics.total_return / in_sample_metrics.total_return
-            )
+            robustness_ratio = out_of_sample_metrics.total_return / in_sample_metrics.total_return
 
         return WalkForwardResult(
             windows=windows,
@@ -622,7 +606,7 @@ class BacktestEngine:
         <tr><td>Period</td><td>{result.start_date} to {result.end_date}</td></tr>
         <tr><td>Initial Capital</td><td>${result.initial_capital:,.2f}</td></tr>
         <tr><td>Final Equity</td><td>${result.final_equity:,.2f}</td></tr>
-        <tr><td>Total Return</td><td class="{'positive' if m.total_return >= 0 else 'negative'}">{m.total_return:.2%}</td></tr>
+        <tr><td>Total Return</td><td class="{"positive" if m.total_return >= 0 else "negative"}">{m.total_return:.2%}</td></tr>
     </table>
 
     <h2>Performance Metrics</h2>
@@ -746,7 +730,20 @@ class BacktestEngine:
         im = ax.imshow(pivot.values, cmap="RdYlGn", aspect="auto", vmin=-0.15, vmax=0.15)
 
         # Labels - only show months that exist in data
-        month_names = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        month_names = [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+        ]
         month_labels = [month_names[int(m) - 1] for m in pivot.columns]
         ax.set_xticks(range(n_cols))
         ax.set_xticklabels(month_labels)
@@ -1196,5 +1193,8 @@ class BacktestEngine:
         month = d.month + months
         year = d.year + (month - 1) // 12
         month = (month - 1) % 12 + 1
-        day = min(d.day, [31, 29 if year % 4 == 0 else 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month - 1])
+        day = min(
+            d.day,
+            [31, 29 if year % 4 == 0 else 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month - 1],
+        )
         return date(year, month, day)
