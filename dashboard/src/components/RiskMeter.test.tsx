@@ -74,18 +74,18 @@ describe('RiskMeter', () => {
 })
 
 describe('CircuitBreakerStatus', () => {
-  it('renders breaker name and values', () => {
+  it('renders breaker name and message', () => {
     render(
       <CircuitBreakerStatus
         name="Daily Loss Breaker"
         status="OK"
-        threshold={5}
-        currentValue={2}
+        canTrade={true}
+        message="Within acceptable limits"
       />
     )
 
     expect(screen.getByText('Daily Loss Breaker')).toBeInTheDocument()
-    expect(screen.getByText('2.00 / 5.00')).toBeInTheDocument()
+    expect(screen.getByText('Within acceptable limits')).toBeInTheDocument()
   })
 
   it('displays OK status badge', () => {
@@ -93,35 +93,48 @@ describe('CircuitBreakerStatus', () => {
       <CircuitBreakerStatus
         name="Breaker"
         status="OK"
-        threshold={5}
-        currentValue={2}
+        canTrade={true}
+        message="All good"
       />
     )
 
     expect(screen.getByText('OK')).toBeInTheDocument()
   })
 
-  it('displays TRIPPED status badge', () => {
+  it('displays TRIGGERED status badge', () => {
     render(
       <CircuitBreakerStatus
         name="Breaker"
-        status="TRIPPED"
-        threshold={5}
-        currentValue={6}
+        status="TRIGGERED"
+        canTrade={false}
+        message="Daily loss limit exceeded"
       />
     )
 
-    expect(screen.getByText('TRIPPED')).toBeInTheDocument()
+    expect(screen.getByText('TRIGGERED')).toBeInTheDocument()
   })
 
-  it('shows reset button when tripped', () => {
+  it('displays WARNING status badge', () => {
+    render(
+      <CircuitBreakerStatus
+        name="Breaker"
+        status="WARNING"
+        canTrade={true}
+        message="Approaching limit"
+      />
+    )
+
+    expect(screen.getByText('WARNING')).toBeInTheDocument()
+  })
+
+  it('shows reset button when triggered', () => {
     const handleReset = vi.fn()
     render(
       <CircuitBreakerStatus
         name="Breaker"
-        status="TRIPPED"
-        threshold={5}
-        currentValue={6}
+        status="TRIGGERED"
+        canTrade={false}
+        message="Limit exceeded"
         onReset={handleReset}
       />
     )
@@ -136,8 +149,8 @@ describe('CircuitBreakerStatus', () => {
       <CircuitBreakerStatus
         name="Breaker"
         status="OK"
-        threshold={5}
-        currentValue={2}
+        canTrade={true}
+        message="All good"
         onReset={handleReset}
       />
     )
@@ -150,9 +163,9 @@ describe('CircuitBreakerStatus', () => {
     render(
       <CircuitBreakerStatus
         name="Breaker"
-        status="TRIPPED"
-        threshold={5}
-        currentValue={6}
+        status="TRIGGERED"
+        canTrade={false}
+        message="Limit exceeded"
         onReset={handleReset}
       />
     )
@@ -161,13 +174,13 @@ describe('CircuitBreakerStatus', () => {
     expect(handleReset).toHaveBeenCalledTimes(1)
   })
 
-  it('applies tripped styling', () => {
+  it('applies triggered styling', () => {
     render(
       <CircuitBreakerStatus
         name="Breaker"
-        status="TRIPPED"
-        threshold={5}
-        currentValue={6}
+        status="TRIGGERED"
+        canTrade={false}
+        message="Limit exceeded"
       />
     )
 
@@ -180,12 +193,66 @@ describe('CircuitBreakerStatus', () => {
       <CircuitBreakerStatus
         name="Breaker"
         status="OK"
-        threshold={5}
-        currentValue={2}
+        canTrade={true}
+        message="All good"
       />
     )
 
     const card = document.querySelector('.border-green-500')
     expect(card).toBeInTheDocument()
+  })
+
+  it('applies warning styling', () => {
+    render(
+      <CircuitBreakerStatus
+        name="Breaker"
+        status="WARNING"
+        canTrade={true}
+        message="Approaching limit"
+      />
+    )
+
+    const card = document.querySelector('.border-yellow-500')
+    expect(card).toBeInTheDocument()
+  })
+
+  it('shows trading allowed indicator when canTrade is true', () => {
+    render(
+      <CircuitBreakerStatus
+        name="Breaker"
+        status="OK"
+        canTrade={true}
+        message="All good"
+      />
+    )
+
+    expect(screen.getByText('Trading allowed')).toBeInTheDocument()
+  })
+
+  it('shows trading blocked indicator when canTrade is false', () => {
+    render(
+      <CircuitBreakerStatus
+        name="Breaker"
+        status="TRIGGERED"
+        canTrade={false}
+        message="Limit exceeded"
+      />
+    )
+
+    expect(screen.getByText('Trading blocked')).toBeInTheDocument()
+  })
+
+  it('displays triggered timestamp when provided', () => {
+    render(
+      <CircuitBreakerStatus
+        name="Breaker"
+        status="TRIGGERED"
+        canTrade={false}
+        message="Limit exceeded"
+        triggeredAt="2024-01-15T10:30:00Z"
+      />
+    )
+
+    expect(screen.getByText(/Triggered:/)).toBeInTheDocument()
   })
 })

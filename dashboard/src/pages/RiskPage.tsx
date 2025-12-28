@@ -121,12 +121,12 @@ export function RiskPage() {
               <p className="text-sm text-gray-500 dark:text-gray-400">Active Breakers</p>
               <p
                 className={`text-2xl font-bold ${
-                  riskStatus?.circuit_breakers.some((cb) => cb.status === 'TRIPPED')
+                  riskStatus?.circuit_breakers.some((cb) => cb.status === 'TRIGGERED')
                     ? 'text-red-600'
                     : 'text-green-600'
                 }`}
               >
-                {riskStatus?.circuit_breakers.filter((cb) => cb.status === 'TRIPPED').length || 0}
+                {riskStatus?.circuit_breakers.filter((cb) => cb.status === 'TRIGGERED').length || 0}
               </p>
             </div>
           </div>
@@ -142,8 +142,9 @@ export function RiskPage() {
                   key={breaker.name}
                   name={breaker.name}
                   status={breaker.status}
-                  threshold={breaker.threshold}
-                  currentValue={breaker.current_value}
+                  canTrade={breaker.can_trade}
+                  message={breaker.message}
+                  triggeredAt={breaker.triggered_at}
                   onReset={() => handleResetBreaker(breaker.name)}
                 />
               ))}

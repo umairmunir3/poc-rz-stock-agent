@@ -8,40 +8,37 @@ export interface Signal {
   stop_loss: number
   take_profit: number
   score: number
-  generated_at: string
-  expires_at: string
-  status: 'PENDING' | 'TRIGGERED' | 'EXPIRED' | 'CANCELLED'
-  indicators: Record<string, number>
+  reasoning: string
+  timestamp: string
+  metadata: Record<string, unknown>
 }
 
 // Trade Types
 export interface Trade {
   id: string
-  signal_id: string
   symbol: string
   direction: 'LONG' | 'SHORT'
+  status: 'OPEN' | 'CLOSED'
   entry_price: number
-  exit_price: number | null
-  quantity: number
+  entry_date: string
+  shares: number
   stop_loss: number
   take_profit: number
-  status: 'OPEN' | 'CLOSED' | 'STOPPED' | 'CANCELLED'
-  entry_time: string
-  exit_time: string | null
-  pnl: number | null
-  pnl_percent: number | null
+  exit_price: number | null
+  exit_date: string | null
+  pnl: number
+  pnl_percent: number
 }
 
 // Portfolio Types
 export interface Position {
   symbol: string
-  quantity: number
+  shares: number
   entry_price: number
   current_price: number
   market_value: number
   unrealized_pnl: number
   unrealized_pnl_percent: number
-  direction: 'LONG' | 'SHORT'
 }
 
 export interface Portfolio {
@@ -75,9 +72,9 @@ export interface PerformanceMetrics {
 // Risk Types
 export interface CircuitBreaker {
   name: string
-  status: 'OK' | 'TRIPPED'
-  threshold: number
-  current_value: number
+  status: 'OK' | 'WARNING' | 'TRIGGERED'
+  can_trade: boolean
+  message: string
   triggered_at: string | null
 }
 

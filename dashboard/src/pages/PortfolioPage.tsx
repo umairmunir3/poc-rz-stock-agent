@@ -113,8 +113,7 @@ export function PortfolioPage() {
               <thead>
                 <tr className="text-left text-sm text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700">
                   <th className="pb-2">Symbol</th>
-                  <th className="pb-2">Direction</th>
-                  <th className="pb-2">Qty</th>
+                  <th className="pb-2">Shares</th>
                   <th className="pb-2">Entry</th>
                   <th className="pb-2">Current</th>
                   <th className="pb-2">Value</th>
@@ -127,17 +126,8 @@ export function PortfolioPage() {
                     <td className="py-3 font-medium text-gray-900 dark:text-white">
                       {position.symbol}
                     </td>
-                    <td className="py-3">
-                      <span
-                        className={`badge ${
-                          position.direction === 'LONG' ? 'badge-success' : 'badge-danger'
-                        }`}
-                      >
-                        {position.direction}
-                      </span>
-                    </td>
                     <td className="py-3 text-gray-700 dark:text-gray-300">
-                      {position.quantity}
+                      {position.shares}
                     </td>
                     <td className="py-3 text-gray-700 dark:text-gray-300">
                       ${position.entry_price.toFixed(2)}

@@ -12,10 +12,9 @@ const mockSignal: Signal = {
   stop_loss: 145.0,
   take_profit: 160.0,
   score: 85,
-  generated_at: '2024-01-15T10:30:00Z',
-  expires_at: '2024-01-16T10:30:00Z',
-  status: 'PENDING',
-  indicators: { rsi: 30, macd: 0.5 },
+  reasoning: 'RSI oversold at 28, price at 50 SMA support',
+  timestamp: '2024-01-15T10:30:00Z',
+  metadata: {},
 }
 
 describe('SignalCard', () => {
@@ -53,10 +52,10 @@ describe('SignalCard', () => {
     expect(screen.getByText('85')).toBeInTheDocument()
   })
 
-  it('displays status badge', () => {
+  it('displays reasoning text', () => {
     render(<SignalCard signal={mockSignal} />)
 
-    expect(screen.getByText('PENDING')).toBeInTheDocument()
+    expect(screen.getByText('RSI oversold at 28, price at 50 SMA support')).toBeInTheDocument()
   })
 
   it('calls onClick when clicked', () => {
@@ -77,13 +76,6 @@ describe('SignalCard', () => {
     fireEvent.keyDown(card, { key: 'Enter' })
 
     expect(handleClick).toHaveBeenCalledTimes(1)
-  })
-
-  it('renders different status colors', () => {
-    const triggeredSignal: Signal = { ...mockSignal, status: 'TRIGGERED' }
-    render(<SignalCard signal={triggeredSignal} />)
-
-    expect(screen.getByText('TRIGGERED')).toBeInTheDocument()
   })
 
   it('shows high score with green indicator', () => {
@@ -108,5 +100,19 @@ describe('SignalCard', () => {
 
     const scoreBar = document.querySelector('.bg-red-500')
     expect(scoreBar).toBeInTheDocument()
+  })
+
+  it('formats timestamp correctly', () => {
+    render(<SignalCard signal={mockSignal} />)
+
+    // Match formatted date pattern (time depends on local timezone)
+    expect(screen.getByText(/Jan 15, \d{2}:\d{2}/)).toBeInTheDocument()
+  })
+
+  it('handles invalid timestamp gracefully', () => {
+    const invalidTimestamp: Signal = { ...mockSignal, timestamp: 'invalid-date' }
+    render(<SignalCard signal={invalidTimestamp} />)
+
+    expect(screen.getByText('N/A')).toBeInTheDocument()
   })
 })

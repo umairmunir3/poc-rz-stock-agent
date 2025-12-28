@@ -8,11 +8,13 @@ interface SignalCardProps {
 
 export function SignalCard({ signal, onClick }: SignalCardProps) {
   const isLong = signal.direction === 'LONG'
-  const statusColors = {
-    PENDING: 'badge-info',
-    TRIGGERED: 'badge-success',
-    EXPIRED: 'badge-warning',
-    CANCELLED: 'badge-danger',
+
+  const formatTimestamp = (timestamp: string) => {
+    try {
+      return format(new Date(timestamp), 'MMM d, HH:mm')
+    } catch {
+      return 'N/A'
+    }
   }
 
   return (
@@ -30,16 +32,11 @@ export function SignalCard({ signal, onClick }: SignalCardProps) {
           </h3>
           <p className="text-sm text-gray-500 dark:text-gray-400">{signal.strategy}</p>
         </div>
-        <div className="flex flex-col items-end gap-1">
-          <span
-            className={`badge ${isLong ? 'badge-success' : 'badge-danger'}`}
-          >
-            {signal.direction}
-          </span>
-          <span className={`badge ${statusColors[signal.status]}`}>
-            {signal.status}
-          </span>
-        </div>
+        <span
+          className={`badge ${isLong ? 'badge-success' : 'badge-danger'}`}
+        >
+          {signal.direction}
+        </span>
       </div>
 
       <div className="grid grid-cols-3 gap-4 mb-3">
@@ -58,6 +55,12 @@ export function SignalCard({ signal, onClick }: SignalCardProps) {
           <p className="font-medium text-primary-600">${signal.take_profit.toFixed(2)}</p>
         </div>
       </div>
+
+      {signal.reasoning && (
+        <p className="text-xs text-gray-500 dark:text-gray-400 mb-3 line-clamp-2">
+          {signal.reasoning}
+        </p>
+      )}
 
       <div className="flex justify-between items-center">
         <div className="flex items-center">
@@ -81,7 +84,7 @@ export function SignalCard({ signal, onClick }: SignalCardProps) {
           </div>
         </div>
         <span className="text-xs text-gray-400">
-          {format(new Date(signal.generated_at), 'MMM d, HH:mm')}
+          {formatTimestamp(signal.timestamp)}
         </span>
       </div>
     </div>

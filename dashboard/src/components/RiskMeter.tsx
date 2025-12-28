@@ -66,42 +66,51 @@ export function RiskMeter({
 
 interface CircuitBreakerStatusProps {
   name: string
-  status: 'OK' | 'TRIPPED'
-  threshold: number
-  currentValue: number
+  status: 'OK' | 'WARNING' | 'TRIGGERED'
+  canTrade: boolean
+  message: string
+  triggeredAt?: string | null
   onReset?: () => void
 }
 
 export function CircuitBreakerStatus({
   name,
   status,
-  threshold,
-  currentValue,
+  canTrade,
+  message,
+  triggeredAt,
   onReset,
 }: CircuitBreakerStatusProps) {
-  const isTripped = status === 'TRIPPED'
-  const percentage = Math.min((currentValue / threshold) * 100, 100)
+  const isTriggered = status === 'TRIGGERED'
+  const isWarning = status === 'WARNING'
+
+  const getBorderColor = () => {
+    if (isTriggered) return 'border-red-500 bg-red-50 dark:bg-red-900/20'
+    if (isWarning) return 'border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20'
+    return 'border-green-500'
+  }
+
+  const getBadgeClass = () => {
+    if (isTriggered) return 'badge-danger'
+    if (isWarning) return 'badge-warning'
+    return 'badge-success'
+  }
 
   return (
-    <div
-      className={`card border-l-4 ${
-        isTripped ? 'border-red-500 bg-red-50 dark:bg-red-900/20' : 'border-green-500'
-      }`}
-    >
+    <div className={`card border-l-4 ${getBorderColor()}`}>
       <div className="flex justify-between items-start">
         <div>
           <h4 className="font-medium text-gray-900 dark:text-white">{name}</h4>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            {currentValue.toFixed(2)} / {threshold.toFixed(2)}
-          </p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">{message}</p>
+          {triggeredAt && (
+            <p className="text-xs text-gray-400 mt-1">
+              Triggered: {new Date(triggeredAt).toLocaleString()}
+            </p>
+          )}
         </div>
         <div className="flex items-center gap-2">
-          <span
-            className={`badge ${isTripped ? 'badge-danger' : 'badge-success'}`}
-          >
-            {status}
-          </span>
-          {isTripped && onReset && (
+          <span className={`badge ${getBadgeClass()}`}>{status}</span>
+          {isTriggered && onReset && (
             <button
               onClick={onReset}
               className="btn btn-danger text-xs py-1 px-2"
@@ -111,13 +120,13 @@ export function CircuitBreakerStatus({
           )}
         </div>
       </div>
-      <div className="mt-2 w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-        <div
-          className={`h-full transition-all duration-500 ${
-            isTripped ? 'bg-red-500' : percentage >= 75 ? 'bg-yellow-500' : 'bg-green-500'
-          }`}
-          style={{ width: `${percentage}%` }}
+      <div className="mt-2 flex items-center gap-2">
+        <span
+          className={`w-3 h-3 rounded-full ${canTrade ? 'bg-green-500' : 'bg-red-500'}`}
         />
+        <span className="text-sm text-gray-600 dark:text-gray-400">
+          {canTrade ? 'Trading allowed' : 'Trading blocked'}
+        </span>
       </div>
     </div>
   )
