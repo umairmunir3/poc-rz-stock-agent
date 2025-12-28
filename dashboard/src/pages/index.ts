@@ -1,0 +1,5 @@
+export { SignalsPage } from './SignalsPage'
+export { PortfolioPage } from './PortfolioPage'
+export { PerformancePage } from './PerformancePage'
+export { RiskPage } from './RiskPage'
+export { SettingsPage } from './SettingsPage'
