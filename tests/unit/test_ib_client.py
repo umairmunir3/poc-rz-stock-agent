@@ -593,7 +593,6 @@ class TestMarketStatus:
         client._connected = True
         client._ib = MagicMock()
 
-        client._ib.reqManagedAccts = MagicMock()
         client._ib.managedAccounts = MagicMock(return_value=["DU12345"])
 
         status = await client.check_market_status()

@@ -809,10 +809,9 @@ class IBClient:
         assert self._ib is not None  # Guaranteed by _ensure_connected
 
         try:
-            # Request managed accounts to trigger farm status
-            self._ib.reqManagedAccts()
+            # Get managed accounts to check connection
+            _ = self._ib.managedAccounts()
 
-            # The farm status would be in connection messages
             # For now, return basic connection status
             return {
                 "connected": self._connected,
