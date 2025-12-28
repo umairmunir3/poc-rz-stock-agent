@@ -6,10 +6,13 @@ from src.signals.realtime import (
     RealtimeConfig,
     RealTimeSignalGenerator,
 )
+from src.signals.telegram_bot import TelegramAlertBot, TelegramConfig
 
 __all__ = [
     "ActiveSignal",
     "ExitSignal",
     "RealTimeSignalGenerator",
     "RealtimeConfig",
+    "TelegramAlertBot",
+    "TelegramConfig",
 ]
