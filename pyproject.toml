@@ -37,6 +37,7 @@ dependencies = [
     "fastapi>=0.100.0",
     "uvicorn>=0.23.0",
     "httpx>=0.24.0",
+    "matplotlib>=3.7.0",
 ]
 
 [project.optional-dependencies]
@@ -154,6 +155,7 @@ module = [
     "telegram.*",
     "boto3.*",
     "botocore.*",
+    "matplotlib.*",
 ]
 ignore_missing_imports = true
 
